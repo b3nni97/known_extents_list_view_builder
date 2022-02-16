@@ -396,7 +396,7 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
 
     _makeHeights(childManager, _itemHeights.length - 1);
 
-    markNeedsLayout();
+    // markNeedsLayout();
   }
 
   void _makeHeights(
