@@ -183,7 +183,7 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
     final double targetEndScrollOffset = scrollOffset + remainingExtent;
 
     BoxConstraints childConstraints(int index) {
-      if (index < 0) {
+      if (index < 0 || index >= itemHeights.length) {
         return constraints.asBoxConstraints(
           minExtent: 0.0,
           maxExtent: 0.0,
