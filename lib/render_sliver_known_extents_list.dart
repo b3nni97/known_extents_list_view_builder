@@ -403,7 +403,7 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
 
     itemHeights.add(0);
 
-    for (var i = 0; i < childManager.childCount; i++) {
+    for (var i = 0; i <= childManager.childCount; i++) {
       total += indexedItemExtent(i);
       _itemHeights.add(total);
     }
