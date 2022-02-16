@@ -407,12 +407,5 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
       total += indexedItemExtent(i);
       _itemHeights.add(total);
     }
-
-    // final _list = _extents.map((double extent) {
-    //   total += extent;
-    //   return total;
-    // }).toList();
-
-    // return [0, ..._list];
   }
 }
