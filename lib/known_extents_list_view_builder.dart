@@ -2,11 +2,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:known_extents_list_view_builder/sliver_known_extents_list.dart';
 
+typedef IndexedItemExtent = double Function(int index);
+
 class KnownExtentsListView extends BoxScrollView {
-  final List<double> itemExtents;
+  // final List<double> itemExtents;
+  final IndexedItemExtent indexedItemExtent;
   final SliverChildBuilderDelegate childrenDelegate;
   KnownExtentsListView.builder({
-    required this.itemExtents,
+    required this.indexedItemExtent,
     Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
@@ -56,7 +59,7 @@ class KnownExtentsListView extends BoxScrollView {
   Widget buildChildLayout(BuildContext context) {
     return SliverKnownExtentsList(
       delegate: childrenDelegate,
-      itemExtents: itemExtents,
+      indexedItemExtent: indexedItemExtent,
     );
   }
 }

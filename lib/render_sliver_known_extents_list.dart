@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:known_extents_list_view_builder/binary_search.dart';
+import 'package:known_extents_list_view_builder/known_extents_list_view_builder.dart';
 
 /// A sliver that contains multiple box children that have the same extent in
 /// the main axis.
@@ -43,7 +44,10 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
   }) : super(childManager: childManager);
 
   /// The main-axis extent of each item.
-  List<double> get itemExtents;
+  // List<double> get itemExtents;
+
+  IndexedItemExtent get indexedItemExtent;
+
   List<double> get itemHeights;
 
   /// The layout offset for the child with the given index.
@@ -169,7 +173,7 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
 
-    final List<double> itemExtents = this.itemExtents;
+    // final List<double> itemExtents = this.itemExtents;
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
@@ -179,15 +183,15 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
     final double targetEndScrollOffset = scrollOffset + remainingExtent;
 
     BoxConstraints childConstraints(int index) {
-      if (index < 0 || index >= itemExtents.length) {
+      if (index < 0) {
         return constraints.asBoxConstraints(
           minExtent: 0.0,
           maxExtent: 0.0,
         );
       }
       return constraints.asBoxConstraints(
-        minExtent: itemExtents[index],
-        maxExtent: itemExtents[index],
+        minExtent: indexedItemExtent(index),
+        maxExtent: indexedItemExtent(index),
       );
     }
 
@@ -373,28 +377,40 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
   /// The [childManager] argument must not be null.
   RenderSliverKnownExtentsList({
     required RenderSliverBoxChildManager childManager,
-    required List<double> itemExtents,
-  })  : _itemExtents = itemExtents,
-        _itemHeights = _makeHeights(itemExtents),
-        super(childManager: childManager);
+    required IndexedItemExtent indexedItemExtent,
+  })  : _indexedItemExtent = indexedItemExtent,
+        super(childManager: childManager) {
+    _makeHeights(childManager);
+  }
+
   @override
-  List<double> get itemExtents => _itemExtents;
+  IndexedItemExtent get indexedItemExtent => _indexedItemExtent;
+  IndexedItemExtent _indexedItemExtent;
+
   List<double> get itemHeights => _itemHeights;
-  List<double> _itemExtents;
-  List<double> _itemHeights;
-  set itemExtents(List<double> value) {
-    if (_itemExtents == value) return;
-    _itemExtents = value;
+  List<double> _itemHeights = [];
+
+  set indexedItemExtent(IndexedItemExtent value) {
+    if (_indexedItemExtent == value) return;
+    _indexedItemExtent = value;
     markNeedsLayout();
   }
-}
 
-List<double> _makeHeights(List<double> _extents) {
-  double total = 0;
-  final _list = _extents.map((double extent) {
-    total += extent;
-    return total;
-  }).toList();
+  void _makeHeights(RenderSliverBoxChildManager childManager) {
+    double total = 0;
 
-  return [0, ..._list];
+    _itemHeights.clear();
+
+    for (var i = 0; i < childManager.childCount; i++) {
+      total += indexedItemExtent(i);
+      _itemHeights.add(total);
+    }
+
+    // final _list = _extents.map((double extent) {
+    //   total += extent;
+    //   return total;
+    // }).toList();
+
+    // return [0, ..._list];
+  }
 }

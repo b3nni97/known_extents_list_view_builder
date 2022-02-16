@@ -512,7 +512,7 @@ class SliverKnownExtentsReorderableListState
   Widget build(BuildContext context) {
     assert(debugCheckHasOverlay(context));
     return SliverKnownExtentsList(
-      itemExtents: widget.itemExtents,
+      indexedItemExtent: (index) => 55.0,
       // When dragging, the dragged item is still in the list but has been replaced
       // by a zero height SizedBox, so that the gap can move around. To make the
       // list extent stable we add a dummy entry to the end.
