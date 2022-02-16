@@ -380,7 +380,7 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
     required IndexedItemExtent indexedItemExtent,
   })  : _indexedItemExtent = indexedItemExtent,
         super(childManager: childManager) {
-    _makeHeights(childManager);
+    _makeHeights(childManager, 0);
   }
 
   @override
@@ -388,22 +388,28 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
   IndexedItemExtent _indexedItemExtent;
 
   List<double> get itemHeights => _itemHeights;
-  List<double> _itemHeights = [];
+  List<double> _itemHeights = [0];
 
   set indexedItemExtent(IndexedItemExtent value) {
     if (_indexedItemExtent == value) return;
     _indexedItemExtent = value;
+
+    _makeHeights(childManager, _itemHeights.length - 1);
+
     markNeedsLayout();
   }
 
-  void _makeHeights(RenderSliverBoxChildManager childManager) {
-    double total = 0;
+  void _makeHeights(
+      RenderSliverBoxChildManager childManager, int startAtIndex) {
+    print("START AT INDEX");
+    print(startAtIndex);
+    double total = _itemHeights[startAtIndex];
 
-    _itemHeights.clear();
+    // _itemHeights.clear();
 
-    itemHeights.add(0);
+    // itemHeights.add(0);
 
-    for (var i = 0; i < childManager.childCount; i++) {
+    for (var i = startAtIndex; i < childManager.childCount; i++) {
       print(i);
       total += indexedItemExtent(i);
       _itemHeights.add(total);
