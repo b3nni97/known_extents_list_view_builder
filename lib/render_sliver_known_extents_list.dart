@@ -427,7 +427,7 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
   IndexedItemExtent _indexedItemExtent;
 
   List<double> get itemHeights => _itemHeights;
-  List<double> _itemHeights = [0];
+  List<double> _itemHeights = [];
 
   set indexedItemExtent(IndexedItemExtent value) {
     if (_indexedItemExtent == value) return;
@@ -440,6 +440,14 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
 
   void _makeHeights(
       RenderSliverBoxChildManager childManager, int startAtIndex) {
+    if (childManager.childCount > 0) {
+      if (_itemHeights.length <= 0) {
+        _itemHeights.add(0);
+      }
+    } else {
+      _itemHeights.clear();
+    }
+
     print("MAKE HEIGHTS: " + startAtIndex.toString());
     double total = _itemHeights[startAtIndex];
 
