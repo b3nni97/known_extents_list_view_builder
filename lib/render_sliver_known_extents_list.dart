@@ -446,6 +446,7 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
       }
     } else {
       _itemHeights.clear();
+      return;
     }
 
     print("MAKE HEIGHTS: " + startAtIndex.toString());
