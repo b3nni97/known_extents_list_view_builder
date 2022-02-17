@@ -291,10 +291,13 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
         targetLastIndex == null || index <= targetLastIndex;
         ++index) {
       RenderBox? child = childAfter(trailingChildWithLayout!);
+      print(index.toString() + ": " + t.elapsedMilliseconds.toString());
+      print("Index of Child: " + indexOf(child!).toString());
       if (child == null || indexOf(child) != index) {
         int _index = child == null ? index : indexOf(child);
         child = insertAndLayoutChild(childConstraints(_index),
             after: trailingChildWithLayout);
+        print("Insert and Layout " + t.elapsedMilliseconds.toString());
         if (child == null) {
           // We have run out of children.
           estimatedMaxScrollOffset = indexToLayoutOffset(itemHeights, index);
