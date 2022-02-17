@@ -170,6 +170,8 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
   @override
   void performLayout() {
     print("PERFORM LAYOUT");
+    var t = Stopwatch();
+    t.start();
     final SliverConstraints constraints = this.constraints;
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
@@ -345,6 +347,9 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
     if (estimatedMaxScrollOffset == trailingScrollOffset)
       childManager.setDidUnderflow(true);
     childManager.didFinishLayout();
+
+    t.stop();
+    print("DURATION: " + t.elapsedMilliseconds.toString());
   }
 }
 
