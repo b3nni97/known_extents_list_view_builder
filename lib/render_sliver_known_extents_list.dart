@@ -292,7 +292,7 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
         ++index) {
       RenderBox? child = childAfter(trailingChildWithLayout!);
       print(index.toString() + ": " + t.elapsedMilliseconds.toString());
-      print("Index of Child: " + indexOf(child!).toString());
+      if (child != null) print("Index of Child: " + indexOf(child!).toString());
       if (child == null || indexOf(child) != index) {
         int _index = child == null ? index : indexOf(child);
         child = insertAndLayoutChild(childConstraints(_index),
