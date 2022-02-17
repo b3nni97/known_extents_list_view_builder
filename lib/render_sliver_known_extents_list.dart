@@ -169,6 +169,7 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
 
   @override
   void performLayout() {
+    print("PERFORM LAYOUT");
     final SliverConstraints constraints = this.constraints;
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
@@ -401,6 +402,7 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
 
   void _makeHeights(
       RenderSliverBoxChildManager childManager, int startAtIndex) {
+    print("MAKE HEIGHTS: " + startAtIndex.toString());
     double total = _itemHeights[startAtIndex];
 
     for (var i = startAtIndex; i < childManager.childCount; i++) {
