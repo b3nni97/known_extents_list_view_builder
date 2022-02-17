@@ -5,8 +5,8 @@ int binarySearchReturnLowest<num>(List<double> sortedList, double value,
   int end = sortedList.length - 1;
   int mid;
 
-  if (sortedList.length <= 0) {
-    return -1;
+  if (sortedList.length <= 1) {
+    return 0;
   }
 
   assert(sortedList[0] < sortedList[1]);
