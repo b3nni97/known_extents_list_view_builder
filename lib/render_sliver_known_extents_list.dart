@@ -243,6 +243,11 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
 
     RenderBox? trailingChildWithLayout;
 
+    print("FirstIndex: " + firstIndex.toString());
+    print("TargetLastIndex: " + targetLastIndex.toString());
+
+    print("Index of First CHild:" + indexOf(firstChild!).toString());
+
     for (int index = indexOf(firstChild!) - 1; index >= firstIndex; --index) {
       final RenderBox? child =
           insertAndLayoutLeadingChild(childConstraints(index));
@@ -271,7 +276,13 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
       childParentData.layoutOffset =
           indexToLayoutOffset(itemHeights, firstIndex);
       trailingChildWithLayout = firstChild;
+
+      print("trailingChildWithLayout: " +
+          childParentData.layoutOffset.toString());
     }
+
+    print("TRAILING CHILD WITH LAYOUT" +
+        indexOf(trailingChildWithLayout!).toString());
 
     double estimatedMaxScrollOffset = double.infinity;
     for (int index = indexOf(trailingChildWithLayout!) + 1;
