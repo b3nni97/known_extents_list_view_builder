@@ -305,6 +305,7 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
         }
       } else {
         print("Layout Child");
+        print("CONSTRAINTS: " + childConstraints(index).toString());
         child.layout(childConstraints(index));
       }
       trailingChildWithLayout = child;
