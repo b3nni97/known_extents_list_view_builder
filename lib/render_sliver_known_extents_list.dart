@@ -279,10 +279,12 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
 
       print("trailingChildWithLayout: " +
           childParentData.layoutOffset.toString());
+      print("" + t.elapsedMilliseconds.toString());
     }
 
     print("TRAILING CHILD WITH LAYOUT" +
         indexOf(trailingChildWithLayout!).toString());
+    print("" + t.elapsedMilliseconds.toString());
 
     double estimatedMaxScrollOffset = double.infinity;
     for (int index = indexOf(trailingChildWithLayout!) + 1;
@@ -307,6 +309,7 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
       assert(childParentData.index == index);
       childParentData.layoutOffset =
           indexToLayoutOffset(itemHeights, childParentData.index!);
+      print("" + t.elapsedMilliseconds.toString());
     }
 
     print("HERE5:" + t.elapsedMilliseconds.toString());
