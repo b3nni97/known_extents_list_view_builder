@@ -205,6 +205,8 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
         ? getMaxChildIndexForScrollOffset(targetEndScrollOffset, itemHeights)
         : null;
 
+    print("HERE1:" + t.elapsedMilliseconds.toString());
+
     if (firstChild != null) {
       final int leadingGarbage = _calculateLeadingGarbage(firstIndex);
       final int trailingGarbage = targetLastIndex != null
@@ -214,6 +216,8 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
     } else {
       collectGarbage(0, 0);
     }
+
+    print("HERE2:" + t.elapsedMilliseconds.toString());
 
     if (firstChild == null) {
       if (!addInitialChild(
@@ -235,6 +239,8 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
       }
     }
 
+    print("HERE3:" + t.elapsedMilliseconds.toString());
+
     RenderBox? trailingChildWithLayout;
 
     for (int index = indexOf(firstChild!) - 1; index >= firstIndex; --index) {
@@ -254,6 +260,8 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
       assert(childParentData.index == index);
       trailingChildWithLayout ??= child;
     }
+
+    print("HERE4:" + t.elapsedMilliseconds.toString());
 
     if (trailingChildWithLayout == null) {
       firstChild!.layout(childConstraints(indexOf(firstChild!)));
@@ -290,6 +298,8 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
           indexToLayoutOffset(itemHeights, childParentData.index!);
     }
 
+    print("HERE5:" + t.elapsedMilliseconds.toString());
+
     final int lastIndex = indexOf(lastChild!);
     final double leadingScrollOffset =
         indexToLayoutOffset(itemHeights, firstIndex);
@@ -312,6 +322,8 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
         trailingScrollOffset: trailingScrollOffset,
       ),
     );
+
+    print("HERE6:" + t.elapsedMilliseconds.toString());
 
     final double paintExtent = calculatePaintOffset(
       constraints,
@@ -341,6 +353,8 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
               lastIndex >= targetLastIndexForPaint) ||
           constraints.scrollOffset > 0.0,
     );
+
+    print("HERE7:" + t.elapsedMilliseconds.toString());
 
     // We may have started the layout while scrolled to the end, which would not
     // expose a new child.
