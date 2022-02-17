@@ -169,9 +169,6 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
 
   @override
   void performLayout() {
-    print("PERFORM LAYOUT");
-    var t = Stopwatch();
-    t.start();
     final SliverConstraints constraints = this.constraints;
     childManager.didStartLayout();
     childManager.setDidUnderflow(false);
@@ -205,8 +202,6 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
         ? getMaxChildIndexForScrollOffset(targetEndScrollOffset, itemHeights)
         : null;
 
-    print("HERE1:" + t.elapsedMilliseconds.toString());
-
     if (firstChild != null) {
       final int leadingGarbage = _calculateLeadingGarbage(firstIndex);
       final int trailingGarbage = targetLastIndex != null
@@ -216,8 +211,6 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
     } else {
       collectGarbage(0, 0);
     }
-
-    print("HERE2:" + t.elapsedMilliseconds.toString());
 
     if (firstChild == null) {
       if (!addInitialChild(
@@ -239,14 +232,7 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
       }
     }
 
-    print("HERE3:" + t.elapsedMilliseconds.toString());
-
     RenderBox? trailingChildWithLayout;
-
-    print("FirstIndex: " + firstIndex.toString());
-    print("TargetLastIndex: " + targetLastIndex.toString());
-
-    print("Index of First CHild:" + indexOf(firstChild!).toString());
 
     for (int index = indexOf(firstChild!) - 1; index >= firstIndex; --index) {
       final RenderBox? child =
@@ -266,8 +252,6 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
       trailingChildWithLayout ??= child;
     }
 
-    print("HERE4:" + t.elapsedMilliseconds.toString());
-
     if (trailingChildWithLayout == null) {
       firstChild!.layout(childConstraints(indexOf(firstChild!)));
       final SliverMultiBoxAdaptorParentData childParentData =
@@ -276,36 +260,25 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
       childParentData.layoutOffset =
           indexToLayoutOffset(itemHeights, firstIndex);
       trailingChildWithLayout = firstChild;
-
-      print("trailingChildWithLayout: " +
-          childParentData.layoutOffset.toString());
-      print("" + t.elapsedMilliseconds.toString());
     }
-
-    print("TRAILING CHILD WITH LAYOUT" +
-        indexOf(trailingChildWithLayout!).toString());
-    print("" + t.elapsedMilliseconds.toString());
 
     double estimatedMaxScrollOffset = double.infinity;
     for (int index = indexOf(trailingChildWithLayout!) + 1;
         targetLastIndex == null || index <= targetLastIndex;
         ++index) {
       RenderBox? child = childAfter(trailingChildWithLayout!);
-      print(index.toString() + ": " + t.elapsedMilliseconds.toString());
-      if (child != null) print("Index of Child: " + indexOf(child!).toString());
+
       if (child == null || indexOf(child) != index) {
         int _index = child == null ? index : indexOf(child);
         child = insertAndLayoutChild(childConstraints(_index),
             after: trailingChildWithLayout);
-        print("Insert and Layout " + t.elapsedMilliseconds.toString());
+
         if (child == null) {
           // We have run out of children.
           estimatedMaxScrollOffset = indexToLayoutOffset(itemHeights, index);
           break;
         }
       } else {
-        print("Layout Child");
-        print("CONSTRAINTS: " + childConstraints(index).toString());
         child.layout(childConstraints(index));
       }
       trailingChildWithLayout = child;
@@ -314,10 +287,7 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
       assert(childParentData.index == index);
       childParentData.layoutOffset =
           indexToLayoutOffset(itemHeights, childParentData.index!);
-      print("" + t.elapsedMilliseconds.toString());
     }
-
-    print("HERE5:" + t.elapsedMilliseconds.toString());
 
     final int lastIndex = indexOf(lastChild!);
     final double leadingScrollOffset =
@@ -341,8 +311,6 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
         trailingScrollOffset: trailingScrollOffset,
       ),
     );
-
-    print("HERE6:" + t.elapsedMilliseconds.toString());
 
     final double paintExtent = calculatePaintOffset(
       constraints,
@@ -373,16 +341,11 @@ abstract class RenderSliverKnownExtentsBoxAdaptor
           constraints.scrollOffset > 0.0,
     );
 
-    print("HERE7:" + t.elapsedMilliseconds.toString());
-
     // We may have started the layout while scrolled to the end, which would not
     // expose a new child.
     if (estimatedMaxScrollOffset == trailingScrollOffset)
       childManager.setDidUnderflow(true);
     childManager.didFinishLayout();
-
-    t.stop();
-    print("DURATION: " + t.elapsedMilliseconds.toString());
   }
 }
 
@@ -434,22 +397,10 @@ class RenderSliverKnownExtentsList extends RenderSliverKnownExtentsBoxAdaptor {
     _indexedItemExtent = value;
 
     _makeHeights(childManager, _itemHeights.length - 1);
-
-    // markNeedsLayout();
   }
 
   void _makeHeights(
       RenderSliverBoxChildManager childManager, int startAtIndex) {
-    // if (childManager.childCount > 0) {
-    //   if (_itemHeights.length <= 0) {
-    //     _itemHeights.add(0);
-    //   }
-    // } else {
-    //   _itemHeights.clear();
-    //   return;
-    // }
-
-    print("MAKE HEIGHTS: " + startAtIndex.toString());
     double total = _itemHeights[startAtIndex];
 
     for (var i = startAtIndex; i < childManager.childCount; i++) {
